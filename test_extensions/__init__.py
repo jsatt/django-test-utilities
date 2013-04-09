@@ -57,24 +57,6 @@ class TestCaseExtensionMixin(object):
     def assertNotFormError(self, response, form, field):
         self.assertEqual(response.context[form][field].errors, [])
 
-    def assertRaisesMessage(self, excClass, callableObj, excMessage,
-                            *args, **kwargs):
-        try:
-            callableObj(*args, **kwargs)
-        except excClass, e:
-            # message_dict and messages for Django's ValidationError
-            if hasattr(e, 'message_dict'):
-                e.message = e.message_dict
-            elif hasattr(e, 'messages'):
-                e.message = e.messages
-
-            if e.message != excMessage:
-                raise AssertionError(
-                    '%s message does not match %r, actual message: %r' %
-                    (excClass.__name__, excMessage, e.message))
-        else:
-            raise AssertionError('%s not raised' % excClass.__name__)
-
     def get_session(self):
         engine = import_module(settings.SESSION_ENGINE)
         if hasattr(self.client.session, 'session_key'):
