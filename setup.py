@@ -20,7 +20,7 @@ from setuptools import setup
 
 setup(
     name='django-test-extensions',
-    version='0.1',
+    version='0.2',
     author='Jeremy Satterfield',
     author_email='jsatterfield@consumeraffairs.com',
     description='Additional test case methods which are useful within Django',
