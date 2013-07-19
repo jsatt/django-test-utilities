@@ -70,3 +70,48 @@ class TestCaseExtensionMixin(object):
 
 class TestCase(TestCaseExtensionMixin, DjangoTestCase):
     pass
+
+
+class QuerySetFromIter(QuerySet):
+    """
+    Creates a QuerySet from an iterable of Django objects, which can then be
+    used like a normal QuerySet.
+    """
+    def __init__(self, objects=[], model=None, query=None, *args, **kwargs):
+        if model is None:
+            if len(objects):
+                model = type(objects[0])
+            else:
+                # TODO: find a better way to handle this
+                raise ValueError(
+                    'If objects is empty, a model must be included')
+
+        pk_list = []
+        for r in objects:
+            if not type(r) is model:
+                raise TypeError('All objects must be the same model')
+            pk_list.append(r.id)
+        super(QuerySetFromIter, self).__init__(model, query, *args, **kwargs)
+        self._result_cache = list(objects)
+        self.query.add_filter(('pk__in', pk_list))
+
+    def _clone(self, klass=None, setup=False, **kwargs):
+        if klass is None:
+            klass = self.__class__.__base__
+        return super(QuerySetFromIter, self)._clone(klass, setup, **kwargs)
+
+
+def add_user_permissions(user, permissions=[]):
+    """
+    Utility to give a user permissions easily
+
+    Usage:
+    add_user_permissions(user, ['app_label.code_name'])
+    """
+    for permission_name in permissions:
+        app_label, codename = permission_name.split('.')
+        permission = Permission.objects.get(
+            content_type__app_label=app_label,
+            codename=codename)
+        user.user_permissions.add(permission)
+    return user
