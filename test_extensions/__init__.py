@@ -90,7 +90,7 @@ class QuerySetFromIter(QuerySet):
         for r in objects:
             if not type(r) is model:
                 raise TypeError('All objects must be the same model')
-            pk_list.append(r.id)
+            pk_list.append(r.pk)
         super(QuerySetFromIter, self).__init__(model, query, *args, **kwargs)
         self._result_cache = list(objects)
         self.query.add_filter(('pk__in', pk_list))
