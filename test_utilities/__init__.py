@@ -97,7 +97,7 @@ class TestCaseExtensionMixin(object):
 
 
 class TestCase(TestCaseExtensionMixin, DjangoTestCase):
-    client = Client
+    client_class = Client
 
 
 class QuerySetFromIter(QuerySet):

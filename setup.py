@@ -20,7 +20,7 @@ from setuptools import setup
 
 setup(
     name='django-test-utilities',
-    version='0.5',
+    version='0.5.1',
     author='Jeremy Satterfield',
     author_email='jsatt0@gmail.com',
     description='Additional test functionality useful within Django',
