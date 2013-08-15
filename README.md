@@ -1,2 +1,2 @@
-django-test-extensions
+django-test-utilities
 ======================

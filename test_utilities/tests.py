@@ -1,5 +1,5 @@
 #from django.core.exceptions import ValidationError
-#from test_extensions import TestCase
+#from test_utilities import TestCase
 
 
 #class TestCaseTest(TestCase):

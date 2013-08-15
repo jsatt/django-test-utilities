@@ -19,14 +19,14 @@ from setuptools import setup
 
 
 setup(
-    name='django-test-extensions',
-    version='0.2',
+    name='django-test-utilities',
+    version='0.5',
     author='Jeremy Satterfield',
-    author_email='jsatterfield@consumeraffairs.com',
-    description='Additional test case methods which are useful within Django',
+    author_email='jsatt0@gmail.com',
+    description='Additional test functionality useful within Django',
     license='Apache License 2.0',
-    url='https://github.com/ConsumerAffairs/django-test-extensions',
-    packages=['test_extensions'],
+    url='https://github.com/jsatt/django-test-utilities',
+    packages=['test_utilities'],
     install_requires=['Django>=1.2'],
     long_description=(
         'Additional test case methods which are useful within Django'),
