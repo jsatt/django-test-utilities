@@ -1,7 +1,35 @@
+import random
+import string
+
 from django.conf import settings
+from django.contrib.auth.models import Permission, User
 from django.contrib.messages import DEFAULT_TAGS
-from django.test import TestCase as DjangoTestCase
+from django.db.models.query import QuerySet
+from django.test import Client as DjangoClient, TestCase as DjangoTestCase
 from django.utils.importlib import import_module
+
+
+class Client(DjangoClient):
+    def login_as(self, user=None, username='', password='testpassword',
+                 permissions=None, *args, **kwargs):
+        if not user:
+            if not username:
+                username = ''.join(random.choice(
+                    string.ascii_letters + string.digits)
+                    for i in xrange(random.randint(6, 20)))
+            user = User.objects.create(
+                username=username, is_active=True, *args, **kwargs)
+
+        user.set_password(password)
+        user.save()
+
+        if permissions:
+            add_user_permissions(user, permissions)
+
+        assert (self.login(username=user.username, password=password),
+                'Can\'t login with user')
+
+        return user
 
 
 class TestCaseExtensionMixin(object):
@@ -69,7 +97,7 @@ class TestCaseExtensionMixin(object):
 
 
 class TestCase(TestCaseExtensionMixin, DjangoTestCase):
-    pass
+    client = Client
 
 
 class QuerySetFromIter(QuerySet):
@@ -106,7 +134,7 @@ def add_user_permissions(user, permissions=[]):
     Utility to give a user permissions easily
 
     Usage:
-    add_user_permissions(user, ['app_label.code_name'])
+    add_user_permissions(user, ['app_label.code_name', ...])
     """
     for permission_name in permissions:
         app_label, codename = permission_name.split('.')
