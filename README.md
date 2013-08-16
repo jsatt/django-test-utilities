@@ -124,9 +124,10 @@ This is a utility for generating a queryset from an interator, most
 commonly helpful when using tool like model_mommy to generate model
 instances. Providing a list or tuple of `objects` will create a queryset of
 those objects in that order and insure that any further queryset
-manipulations will be executed against only those items. If a model is not
+manipulations will be executed against only those items. If a `model` is not
 provided, it will be detected from the first item. All items *must* be
-instances of the same Model.
+instances of the same Model. If a `model` and no objects are provided it will
+return an empty queryset of that model.
 
     ...
     magazines = [self.mag1, self.mag3, self.mag2]
