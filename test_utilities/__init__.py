@@ -26,8 +26,8 @@ class Client(DjangoClient):
         if permissions:
             add_user_permissions(user, permissions)
 
-        assert (self.login(username=user.username, password=password),
-                'Can\'t login with user')
+        assert self.login(username=user.username, password=password), (
+            'Can\'t login with user')
 
         return user
 
