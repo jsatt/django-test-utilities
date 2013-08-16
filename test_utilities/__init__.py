@@ -31,6 +31,16 @@ class Client(DjangoClient):
 
         return user
 
+    def get_session(self):
+        engine = import_module(settings.SESSION_ENGINE)
+        if hasattr(self.session, 'session_key'):
+            store = engine.SessionStore(self.session.session_key)
+        else:
+            store = engine.SessionStore()
+        store.save()  # we need to make load() work, or the cookie is worthless
+        self.cookies[settings.SESSION_COOKIE_NAME] = store.session_key
+        return self.session
+
 
 class TestCaseExtensionMixin(object):
     def assertMessageCount(self, response, expect_num):
@@ -84,16 +94,6 @@ class TestCaseExtensionMixin(object):
 
     def assertNotFormError(self, response, form, field):
         self.assertEqual(response.context[form][field].errors, [])
-
-    def get_session(self):
-        engine = import_module(settings.SESSION_ENGINE)
-        if hasattr(self.client.session, 'session_key'):
-            store = engine.SessionStore(self.client.session.session_key)
-        else:
-            store = engine.SessionStore()
-        store.save()  # we need to make load() work, or the cookie is worthless
-        self.client.cookies[settings.SESSION_COOKIE_NAME] = store.session_key
-        return self.client.session
 
 
 class TestCase(TestCaseExtensionMixin, DjangoTestCase):

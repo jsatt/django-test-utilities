@@ -77,23 +77,6 @@ contains any errors on the field of the form specified.
     self.assertNotFormError(response, 'signup_form', 'address1')
     ...
 
-#### .get_session() ####
-
-Setting and checking session values with Django test clients is sometimes a
-pain. This will get the current client session, or create it if it doesn't
-exist. You can then set session attributes and assert their values.
-
-    ...
-    session = self.get_session()
-    session['pages_viewed'] = 5
-    session.save()
-
-    # Get a view that modifies the session
-    response = self.client.get('/example_page/')
-
-    self.assertEqual(session['pages_viewed'], 6)
-    ...
-
 
 Client
 ------
@@ -112,6 +95,23 @@ assertion is raised it the user cannot be logged in.
     self.client.login_as(
         username='bob', email='test@email.com', is_staff=True,
         permissions=['auth.change_user', 'my_app.add_example'])
+    ...
+
+#### .get_session() ####
+
+Setting and checking session values with Django test clients is sometimes a
+pain. This will get the current client session, or create it if it doesn't
+exist. You can then set session attributes and assert their values.
+
+    ...
+    session = self.client.get_session()
+    session['pages_viewed'] = 5
+    session.save()
+
+    # Get a view that modifies the session
+    response = self.client.get('/example_page/')
+
+    self.assertEqual(session['pages_viewed'], 6)
     ...
 
 
