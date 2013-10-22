@@ -28,3 +28,8 @@ def shell():
 def test(args=''):
     """Run the test suite."""
     _local('django-admin.py test %s' % args)
+
+
+def test_coverage():
+    _local('coverage run --source=%s --omit=*/migrations/*.py '
+           '$(which django-admin.py) test' % APP_NAME)

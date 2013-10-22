@@ -2,6 +2,6 @@ Django>=1.2
 
 
 # required for tests
-#fabric
-#django-nose
-#nose
+fabric
+django-nose
+nose
