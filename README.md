@@ -4,6 +4,9 @@ Django Test Utilities
 Django Test Utilities is a small suite which brings additional useful
 funcationality to testing Django applications
 
+[![Build Status](https://travis-ci.org/jsatt/django-test-utilities.png?branch=master)](https://travis-ci.org/jsatt/django-test-utilities)
+[![Coverage Status](https://coveralls.io/repos/jsatt/django-test-utilities/badge.png)](https://coveralls.io/r/jsatt/django-test-utilities)
+
 
 Installation
 ------------
