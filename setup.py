@@ -27,7 +27,7 @@ setup(
     license='Apache License 2.0',
     url='https://github.com/jsatt/django-test-utilities',
     packages=['test_utilities'],
-    install_requires=['Django>=1.2'],
+    install_requires=['Django>=1.4'],
     long_description=(
         'Additional test case methods which are useful within Django'),
     classifiers=[
